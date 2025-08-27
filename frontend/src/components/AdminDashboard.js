@@ -530,14 +530,14 @@ const AdminDashboard = () => {
                   value={enquiries.length}
                   color="green"
                 />
-                <button
+                {/* <button
                   onClick={() => setDark((d) => !d)}
                   className="inline-flex items-center gap-2 rounded-lg bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
                   title="Toggle theme"
                 >
                   {dark ? <Sun size={16} /> : <Moon size={16} />}
                   <span className="hidden sm:inline">{dark ? "Light" : "Dark"}</span>
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

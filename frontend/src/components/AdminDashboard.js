@@ -509,7 +509,7 @@ const AdminDashboard = () => {
   // ---------- UI ----------
   return (
     <div className={dark ? "dark" : ""}>
-      <div className="min-h-screen bg-gray-50 dark:bg-neutral-950">
+      <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-neutral-950 dark:text-gray-100 transition-colors">
         {/* Header */}
         <div className="border-b bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -681,190 +681,152 @@ const AdminDashboard = () => {
           )}
 
           {/* Enquiries */}
-          {!loading && activeTab === "enquiries" && (
-            <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 sm:text-2xl">
-                Enquiries Management
-              </h2>
+{/* Enquiries */}
+{!loading && activeTab === "enquiries" && (
+  <div className="space-y-6">
+    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 sm:text-2xl">
+      Enquiries Management
+    </h2>
 
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                <div className="relative">
-                  <Search
-                    className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                    size={16}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search enquiries..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-100"
-                  />
-                </div>
-                <select
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                  className="rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-100"
-                >
-                  <option value="all">All Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="in-progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-                <select
-                  value={filterPriority}
-                  onChange={(e) => setFilterPriority(e.target.value)}
-                  className="rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-100"
-                >
-                  <option value="all">All Priority</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                  <option value="urgent">Urgent</option>
-                </select>
-              </div>
+    {/* Filters */}
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+      <div className="relative">
+        <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+        <input
+          type="text"
+          placeholder="Search enquiries..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <select
+        value={filterStatus}
+        onChange={(e) => setFilterStatus(e.target.value)}
+        className="rounded-lg border border-gray-300 px-4 py-2 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="all">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="in-progress">In Progress</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      <select
+        value={filterPriority}
+        onChange={(e) => setFilterPriority(e.target.value)}
+        className="rounded-lg border border-gray-300 px-4 py-2 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="all">All Priority</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="urgent">Urgent</option>
+      </select>
+    </div>
 
-              <div className="overflow-hidden rounded-xl bg-white shadow dark:bg-neutral-900">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800">
-                    <thead className="bg-gray-50 dark:bg-neutral-800">
-                      <tr>
-                        <Th>Customer</Th>
-                        <Th>Contact</Th>
-                        <Th>Location</Th>
-                        <Th>Status</Th>
-                        <Th>Priority</Th>
-                        <Th>Date</Th>
-                        <Th>Actions</Th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-neutral-800">
-                      {filteredEnquiries.map((enquiry) => (
-                        <tr
-                          key={enquiry._id}
-                          className="hover:bg-gray-50 dark:hover:bg-neutral-800/60"
-                        >
-                          <Td>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {enquiry.name}
-                              </div>
-                              <div className="max-w-xs truncate text-sm text-gray-500 dark:text-gray-400">
-                                {enquiry.subject || "No subject"}
-                              </div>
-                            </div>
-                          </Td>
-                          <Td>
-                            <div className="text-sm text-gray-900 dark:text-gray-100">
-                              {enquiry.email}
-                            </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                              {enquiry.phone}
-                            </div>
-                          </Td>
-                          <Td>
-                            <div className="text-sm text-gray-900 dark:text-gray-100">
-                              {enquiry.city}
-                            </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                              {enquiry.state}
-                            </div>
-                          </Td>
-                          <Td>
-                            <span
-                              className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${getStatusColor(
-                                enquiry.status
-                              )}`}
-                            >
-                              {enquiry.status}
-                            </span>
-                          </Td>
-                          <Td>
-                            <span
-                              className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${getPriorityColor(
-                                enquiry.priority
-                              )}`}
-                            >
-                              {enquiry.priority}
-                            </span>
-                          </Td>
-                          <Td>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
-                              {enquiry.createdAt
-                                ? new Date(enquiry.createdAt).toLocaleDateString()
-                                : "-"}
-                            </span>
-                          </Td>
-                          <Td>
-                            <div className="flex flex-wrap gap-1">
-                              <IconBtn
-                                title="View Details"
-                                color="blue"
-                                onClick={() => {
-                                  setEditingEnquiry(enquiry);
-                                  setShowEnquiryModal(true);
-                                }}
-                              >
-                                <Eye size={14} />
-                              </IconBtn>
-                              <IconBtn
-                                title="Call"
-                                color="green"
-                                onClick={() => window.open(`tel:${enquiry.phone}`)}
-                              >
-                                <Phone size={14} />
-                              </IconBtn>
-                              <IconBtn
-                                title="Email"
-                                color="orange"
-                                onClick={() =>
-                                  window.open(`mailto:${enquiry.email}`)
-                                }
-                              >
-                                <Mail size={14} />
-                              </IconBtn>
-                              <IconBtn
-                                title="Mark as Done"
-                                color="gray"
-                                onClick={() => handleMarkDone(enquiry._id)}
-                              >
-                                <CheckCircle size={14} />
-                              </IconBtn>
-                              <IconBtn
-                                title="Mark as Critical"
-                                color="red"
-                                onClick={() => handleMarkCritical(enquiry._id)}
-                              >
-                                <AlertCircle size={14} />
-                              </IconBtn>
-                              <IconBtn
-                                title="Delete"
-                                color="black"
-                                onClick={() => handleDeleteEnquiry(enquiry._id)}
-                              >
-                                <Trash2 size={14} />
-                              </IconBtn>
-                            </div>
-                          </Td>
-                        </tr>
-                      ))}
-                      {filteredEnquiries.length === 0 && (
-                        <tr>
-                          <td
-                            colSpan="7"
-                            className="p-8 text-center text-sm text-gray-500 dark:text-gray-400"
-                          >
-                            No enquiries found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+    {/* Mobile view → Cards */}
+    <div className="md:hidden space-y-4">
+      {filteredEnquiries.map((enquiry) => (
+        <div
+          key={enquiry._id}
+          className="relative overflow-hidden rounded-xl bg-white shadow dark:bg-neutral-900"
+        >
+          <div className="p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold">{enquiry.name}</h3>
+              <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(enquiry.status)}`}>
+                {enquiry.status}
+              </span>
             </div>
-          )}
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              {enquiry.email} | {enquiry.phone}
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {enquiry.city}, {enquiry.state}
+            </p>
+            <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${getPriorityColor(enquiry.priority)}`}>
+              {enquiry.priority}
+            </span>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                onClick={() => setEditingEnquiry(enquiry) || setShowEnquiryModal(true)}
+                className="flex items-center gap-1 rounded bg-blue-600 px-3 py-1 text-white text-xs"
+              >
+                <Edit size={14}/> Edit
+              </button>
+              <a href={`tel:${enquiry.phone}`} className="flex items-center gap-1 rounded bg-green-600 px-3 py-1 text-white text-xs">
+                <Phone size={14}/> Call
+              </a>
+              <a href={`mailto:${enquiry.email}`} className="flex items-center gap-1 rounded bg-purple-600 px-3 py-1 text-white text-xs">
+                <Mail size={14}/> Mail
+              </a>
+              <button
+                onClick={() => handleDeleteEnquiry(enquiry._id)}
+                className="flex items-center gap-1 rounded bg-red-600 px-3 py-1 text-white text-xs"
+              >
+                <Trash2 size={14}/> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Desktop view → Table */}
+    <div className="hidden md:block overflow-hidden rounded-xl bg-white shadow dark:bg-neutral-900">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800">
+          <thead className="bg-gray-50 dark:bg-neutral-800">
+            <tr>
+              <Th>Customer</Th>
+              <Th>Contact</Th>
+              <Th>Location</Th>
+              <Th>Status</Th>
+              <Th>Priority</Th>
+              <Th>Date</Th>
+              <Th>Actions</Th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-neutral-800">
+            {filteredEnquiries.map((enquiry) => (
+              <tr key={enquiry._id} className="hover:bg-gray-50 dark:hover:bg-neutral-800/60">
+                <Td>{enquiry.name}</Td>
+                <Td>{enquiry.email} <br /> {enquiry.phone}</Td>
+                <Td>{enquiry.city}, {enquiry.state}</Td>
+                <Td>
+                  <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${getStatusColor(enquiry.status)}`}>
+                    {enquiry.status}
+                  </span>
+                </Td>
+                <Td>
+                  <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${getPriorityColor(enquiry.priority)}`}>
+                    {enquiry.priority}
+                  </span>
+                </Td>
+                <Td>{new Date(enquiry.createdAt).toLocaleDateString()}</Td>
+                <Td className="flex gap-3">
+                  <button onClick={() => setEditingEnquiry(enquiry) || setShowEnquiryModal(true)} className="text-blue-600 hover:underline text-sm flex items-center gap-1">
+                    <Edit size={14}/> Edit
+                  </button>
+                  <a href={`tel:${enquiry.phone}`} className="text-green-600 hover:underline text-sm flex items-center gap-1">
+                    <Phone size={14}/> Call
+                  </a>
+                  <a href={`mailto:${enquiry.email}`} className="text-purple-600 hover:underline text-sm flex items-center gap-1">
+                    <Mail size={14}/> Mail
+                  </a>
+                  <button onClick={() => handleDeleteEnquiry(enquiry._id)} className="text-red-600 hover:underline text-sm flex items-center gap-1">
+                    <Trash2 size={14}/> Delete
+                  </button>
+                </Td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+)}
+
         </div>
 
         {/* Modals */}
